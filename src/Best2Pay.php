@@ -40,6 +40,11 @@ class Best2Pay
         }
         $this->options = clone $options;
         $this->client = $client ?: new Client();
+        if ($this->options->isTest) {
+            $this->host = "https://test.best2pay.net";
+        } else {
+            $this->host = "https://pay.best2pay.net";
+        }
 
     }
 
@@ -63,6 +68,7 @@ class Best2Pay
                     'failurl' => $options->failurl,
                     'sector' => $this->options->sector,
                     'currency' => $this->options->currency,
+                    'email' => $options->email,
                     'signature' => base64_encode(md5($this->options->sector . $options->amount . $this->options->currency . $this->options->password)),
                 ]
             ]
